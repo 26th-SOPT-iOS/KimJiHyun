@@ -70,8 +70,17 @@ let footerView = UIView()
         }
         return footerView
     }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+```
+> 처음엔 headerView에 구분선과 친구 20 을 헤더뷰에 넣었다가, 헤더뷰 특징 상 아래로 내리면 헤더뷰만 위에 남아있게 되는데, 남아있지 않게 구현하는 것을 아직 못해서 footerView에 구분선과 친구 20을 추가했습니다 ㅜㅜ 내일 스터디 시간에 시도해야겠어요
+
+> *구분선을 포토샵으로 만들어 넣어야 하나 했는데, UIView의 높이를 0.5로 작게 해서 선처럼 넣는 방법이 신기했어요* 🤭
+
+2️⃣ **도전과제 : 친구목록 삭제 기능 **
+
+> UITableViewDelegate 함수 중 canEditRowAt이 포함된 함수 -> row를 수정 가능하게 함 / HeaderCell은 내 프로필이므로 수정 불가하게 했습니다
+> UITableViewDelegate 함수 중 commit editingStyle 이 포함된 함수 -> editingStyle 이 delete이며, section이 1이라면(친구목록셀) 삭제
+```swift
+func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch indexPath.section {
         case 0:
             return false
@@ -87,6 +96,4 @@ let footerView = UIView()
         }
     }
 ```
-> 처음엔 headerView에 구분선과 친구 20 을 헤더뷰에 넣었다가, 헤더뷰 특징 상 아래로 내리면 헤더뷰만 위에 남아있게 되는데, 남아있지 않게 구현하는 것을 아직 못해서 footerView에 구분선과 친구 20을 추가했습니다 ㅜㅜ 내일 스터디 시간에 시도해야겠어요
 
-> *구분선을 포토샵으로 만들어 넣어야 하나 했는데, UIView의 높이를 0.5로 작게 해서 선처럼 넣는 방법이 신기했어요* 🤭
