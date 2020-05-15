@@ -150,7 +150,8 @@ override func viewDidLoad() {
 > **탭바, 네비게이션 Embed In**
 
 > *궁금한 점, 추가*
-> shadowImage
-> 네비게이션 바버튼 아이템 font 수정...
+
+> + shadowImage
+> + 네비게이션 바버튼 아이템 font 수정...
 > + UIViewController 에 dataSource, delegate 대리자 위임 방법 말고 TableViewController로 구현
 > + cell style -> RightDetail로
