@@ -75,7 +75,7 @@ let footerView = UIView()
 
 > *구분선을 포토샵으로 만들어 넣어야 하나 했는데, UIView의 높이를 0.5로 작게 해서 선처럼 넣는 방법이 신기했다* 🤭
 
-2️⃣ **도전과제 : 친구목록 삭제 기능 **
+2️⃣ **도전과제 : 친구목록 삭제 기능**
 
 > UITableViewDelegate 함수 중 canEditRowAt이 포함된 함수 -> row를 수정 가능하게 함 / HeaderCell은 내 프로필이므로 수정 불가하게 했다
 > UITableViewDelegate 함수 중 commit editingStyle 이 포함된 함수 -> editingStyle 이 delete이며, section이 1이라면(친구목록셀) 삭제
@@ -97,7 +97,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> B
     }
 ```
 
-3️⃣ **도전과제 : 네비게이션바아이템 actionsheet **
+3️⃣ **도전과제 : 네비게이션바아이템 actionsheet**
 
 > FriendsViewController에 바버튼아이템 액션을 연결해주어 UIAlertController가 뜨도록 함
 ```swift
