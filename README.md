@@ -10,7 +10,7 @@
 > 3. DataInformation 파일에서 구조 만든 후, FriendsViewController에서 친구들 정보 추가 (생략)
 
 ### FriendsViewController - UITableViewDataSource
-```{.swift}
+```swift
 func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -51,7 +51,7 @@ func numberOfSections(in tableView: UITableView) -> Int {
 ```
 
 ### FriendsViewController - UITableViewDelegate
-```{.swift}
+```swift
 let footerView = UIView()
         let friendNumLabel = UILabel()
         
