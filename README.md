@@ -116,3 +116,43 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> B
         self.present(optionMenu, animated: true, completion: nil)
     }
 ```
+
+4️⃣ **그 외**
+
+> **AppDelegate에서 탭바 tintColor 지정**
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        UITabBar.appearance().tintColor = UIColor(red: 47/255, green: 54/255, blue: 62/255, alpha: 1)
+        return true
+    }
+```
+
+> **ViewDidLoad**
+> 1. setdataInformations() 호출
+> 2. datasource, delegate 대리자 위임
+> 3. row간의 separator 없애기
+> 4. 네비게이션바 설정
+``` swift
+override func viewDidLoad() {
+        super.viewDidLoad()
+        setdataInformations()
+        friendsTableView.dataSource = self
+        friendsTableView.delegate = self
+        friendsTableView.separatorStyle = FriendsCell.SeparatorStyle.none
+        
+        navigationController?.navigationBar.barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor(red: 39/255, green: 39/255, blue: 39/255, alpha: 1)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+```
+
+> **탭바, 네비게이션 Embed In**
+![tabandnav](tabandnav.png)
+
+> 궁금한 점, 추가
+> shadowImage
+> 네비게이션 바버튼 아이템 font 수정...
+> -----------------------------------------------------------------------------------
+> + UIViewController 에 dataSource, delegate 대리자 위임 방법 말고 TableViewController로 구현
+> + cell style -> RightDetail로
