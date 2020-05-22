@@ -1,0 +1,6 @@
+framework module Pods_IOS_2Seminar_Exercise {
+  umbrella header "Pods-IOS_2Seminar_Exercise-umbrella.h"
+
+  export *
+  module * { export * }
+}
