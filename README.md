@@ -155,3 +155,118 @@ override func viewDidLoad() {
 > + 네비게이션 바버튼 아이템 font 수정...
 > + UIViewController 에 dataSource, delegate 대리자 위임 방법 말고 TableViewController로 구현
 > + cell style -> RightDetail로
+
+## 4주차 세미나
+
+1️⃣ **회원가입 구현**
+
+> 1. APIConstants.swift - API 주소 모아놓는 곳
+### APIConstants.swift
+```swift
+import Foundation
+
+struct APIConstants {
+    static let baseURL = "http://13.209.144.115:3333"
+    static let signinURL = APIConstants.baseURL + "/user/signin"
+    static let signupURL = APIConstants.baseURL + "/user/signup"
+}
+```
+
+> 2. SigninData.swift - 로그인 JSON 데이터
+> TokenData struct가 따로 있는 이유 -> 존재하지 않는 아이디이거나 비밀번호를 틀렸을 때엔 token이 없기 때문에 data 의 key값(토큰)이 있을 때와 없을 때를 구분해주기 위해
+### SigninData.swift
+```swift
+struct SigninData: Codable {
+    var status: Int
+    var success: Bool
+    var message: String
+    var data: TokenData?
+    enum CodingKeys: String, CodingKey {
+        case status = "status"
+        case success = "success"
+        case message = "message"
+        case data = "data"
+        
+    }
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        status = (try? values.decode(Int.self, forKey: .status)) ?? -1
+        success = (try? values.decode(Bool.self, forKey: .success)) ?? false
+        message = (try? values.decode(String.self, forKey: .message)) ?? ""
+        data = (try? values.decode(TokenData.self, forKey: .data)) ?? nil
+    }
+    
+}
+
+struct TokenData: Codable {
+    var jwt: String
+}
+```
+
+> 3. NetworkResult.swift -> 서버 통신에 따른 결과
+
+> 4. LoginService.swift -> 로그인 서버 통신 구현
+> 5. SignUpService.swift -> 회원가입 서버 통신 구현
+### LoginService.swift, SignUpService.swift
+```swift
+    private func judge(by statusCode: Int, _ data: Data) -> NetworkResult<Any> {
+        switch statusCode {
+        case 200: return isUser(by: data) // 200일 땐 함수 사용해서 분기처리 두 번
+        case 400: return .pathErr
+        case 500: return .serverErr default: return .networkFail }
+    }
+    private func isUser(by data: Data) -> NetworkResult<Any> {
+        let decoder = JSONDecoder()
+        guard let decodedData = try? decoder.decode(SigninData.self, from: data) else { return .pathErr }
+        guard let tokenData = decodedData.data else { return .requestErr(decodedData.message) }
+        return .success(tokenData.jwt)
+    }
+```
+> 처음엔 case 200일 때 requestErr (이미 있는 아이디 등등의 에러)를 하고 204일 때 isSignUp을 호출했지만
+
+> 아직 decode 전이어서 requestErr, success 모두 200이었다 (지윤언니가 알려줌 ㅜㅜ)
+
+> 그래서 우선 200일 때 isSignUp을 호출해서 decode success 여부에 따라 success와 requestErr를 나눠줌
+```swift
+    private func judge(by statusCode: Int, _ data: Data) -> NetworkResult<Any> {
+        switch statusCode {
+        //case 200: return .requestErr(true)
+        case 200: return isSignUp(by: data)
+        case 400: return .pathErr
+        case 500: return .serverErr default: return .networkFail }
+    }
+    
+    private func isSignUp(by data: Data) -> NetworkResult<Any> {
+        let decoder = JSONDecoder()
+        guard let decodedData = try? decoder.decode(SignupData.self, from: data)
+            else {
+                return .pathErr }
+        
+        if decodedData.success{
+            return .success(data)
+        }
+        else {
+            return .requestErr(decodedData.message)
+        }
+    }
+```
+
+### 싱글톤 객체 in SignUpService.swift
+```swift
+static let shared = SignUpService()
+```
+### 가입하기 버튼 구현부에서 쓰인 싱글톤 패턴
+```swift
+SignUpService.shared.signup(id: inputID, pwd: inputPWD, name: inputNAME, email: inputEMAIL, pNum: inputNUM) { //뒤 생략
+```
+
+> 6. SignUpData.swift
+> 회원가입 시엔 토큰 값이 필요없으므로 datad와 struct TokenData를 빼줌
+> 7. LoginViewController.swift - 생략
+> 8. JoinViewController.sift
+> success 시 다시 로그이 창을 되돌아감
+```swift
+            case .success: // 데이터 통신 성공시 탭바로 되어있는 메인화면 present
+                print("success")
+                self.navigationController?.popViewController(animated: true)
+```
