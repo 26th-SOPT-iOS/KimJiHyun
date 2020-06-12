@@ -294,7 +294,8 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         return 0
     }
 ```
-### ViewController 각 컬렉션뷰 사진 (넣는 것 실패 ㅜㅜ 시간날 때 수정)
+### ViewController 각 컬렉션뷰 사진
+> (넣는 것 실패 ㅜㅜ 시간날 때 수정)
 ```swift
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
