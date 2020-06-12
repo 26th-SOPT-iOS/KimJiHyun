@@ -270,3 +270,90 @@ SignUpService.shared.signup(id: inputID, pwd: inputPWD, name: inputNAME, email: 
                 print("success")
                 self.navigationController?.popViewController(animated: true)
 ```
+
+## 합동 세미나
+
+1️⃣ **오늘의 집 메인화면 구현 - ViewController**
+
+> 1. HeaderCell (내 프로필), FriendsCell .swift 파일을 만들어서 각 셀의 이미지, 라벨의 아울렛 연결 후 image와 text를 받아올 함수 구현 (생략)
+> 2. FriendsViewController(UIViewController)에서 extension 으로 UITableViewDataSource, UITableViewDelegate 함수 추가
+> 3. DataInformation 파일에서 구조 만든 후, FriendsViewController에서 친구들 정보 추가 (생략)
+
+### ViewController 각 컬렉션뷰 섹션 갯 설정
+```swift
+func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView.tag == 1 {
+            return 2
+        }
+        if collectionView.tag == 2 {
+            return 4
+        }
+        if collectionView.tag == 3 {
+            return 9
+        }
+        return 0
+    }
+```
+### ViewController 각 컬렉션뷰 사진 (넣는 것 실패 ㅜㅜ 시간날 때 수정)
+```swift
+func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        // cell identifier 별로 다르게 작업하는 방법
+        // cell identifier 통일하되 각 컬렉션 별로 작업하는 방법
+        // 아이에 컬렉션뷰 배치를 코드로 하는 방법
+        switch collectionView.tag {
+        case 1:
+           /* guard let topCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainTopCollectionViewCell.identifier, for:
+            indexPath) as? MainTopCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            topCell.topSet(topList[indexPath.row])
+            //MainTopCollectionViewCell.setDataInformation(name: "김지현",
+            //message: "아요^0^", imageName: "profile7Img")*/
+            
+            let topCell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopCell", for: indexPath)
+            return topCell
+            
+        case 2:
+            /*guard let storyCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainStoryCollectionViewCell.identifier, for:
+            indexPath) as? MainStoryCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            storyCell.storySet(storyList[indexPath.row])
+            //MainTopCollectionViewCell.setDataInformation(name: "김지현",
+            //message: "아요^0^", imageName: "profile7Img")
+ */
+            
+            let storyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "StoryCell", for: indexPath)
+            
+            return storyCell
+            
+        case 3:
+            /*guard let popularCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPopularCollectionViewCell.identifier, for:
+            indexPath) as? MainPopularCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            popularCell.popularSet(popularList[indexPath.row])
+            //MainTopCollectionViewCell.setDataInformation(name: "김지현",
+            //message: "아요^0^", imageName: "profile7Img")
+            
+            return popularCell*/
+            
+            let popularCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularCell", for: indexPath)
+            
+            return popularCell
+        default:
+            guard let popularCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPopularCollectionViewCell.identifier, for:
+            indexPath) as? MainPopularCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            popularCell.popularSet(popularList[indexPath.row])
+            //MainTopCollectionViewCell.setDataInformation(name: "김지현",
+            //message: "아요^0^", imageName: "profile7Img")
+            
+            return popularCell
+        }
+    }
+```
+> delegate 에서 크기 설정해주는 것과 스토리보드에서 설정해주는 것 중 뭐가 먼저지?
+> 세개의 셀 각각 CollectionViewCell 파일 만들어서 image와 label값 설정
